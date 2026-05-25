@@ -21,7 +21,9 @@ export class Autos implements OnInit {
 
   ngOnInit() {
     this.api.getCarBrands().subscribe({
-      next: (data) => { this.marcas = data; this.cargando = false; },
+      next: (data) => {  this.marcas = data; 
+  console.log('primera marca:', data[0]);
+  this.cargando = false;  },
       error: () => { this.cargando = false; }
     });
   }

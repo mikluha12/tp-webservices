@@ -1,41 +1,92 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  OnInit,
+  NgZone
+} from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
+import { CommonModule, NgForOf } from '@angular/common';
 import { ApiService } from '../../services/api';
 
 @Component({
   selector: 'app-conversor',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule, NgForOf, CommonModule],
   templateUrl: './conversor.html'
 })
 export class Conversor implements OnInit {
-  monedas: string[] = [];
-  desde = 'USD';
-  hasta = 'ARS';
-  monto = 1;
-  resultado: number | null = null;
-  cargando = false;
 
-  constructor(private api: ApiService) {}
+  from: string = '';
+  to: string = '';
+  amount: number = 0;
 
-  ngOnInit() {
+  final: any = null;
+
+  monedas: Array<{codigo: string, nombre: string}> = [];
+
+  // Variables congeladas
+  fromSaved: string = '';
+  toSaved: string = '';
+  amountSaved: number = 0;
+
+  constructor(
+    private api: ApiService,
+    private zone: NgZone
+  ) {}
+
+  ngOnInit(): void {
+    this.cargarMonedas();
+  }
+
+  cargarMonedas() {
+
     this.api.getCurrencies().subscribe({
-      next: (data) => {
-        this.monedas = Object.keys(data.currencies);
-      }
+
+      next: (result: any) => {
+
+        this.zone.run(() => {
+
+          this.monedas = result.supported_codes.map(
+            ([codigo, nombre]: [string, string]) => {
+              return { codigo, nombre };
+            }
+          );
+
+        });
+
+      },
+
+      error: (error) => console.log(error)
     });
   }
 
   convertir() {
-    this.cargando = true;
-    this.resultado = null;
-    this.api.convertCurrency(this.desde, this.hasta, this.monto).subscribe({
-      next: (data) => {
-        this.resultado = data.result;
-        this.cargando = false;
+
+    this.api.convertCurrency(
+      this.from,
+      this.to,
+      this.amount
+    ).subscribe({
+
+      next: (result: any) => {
+
+        this.zone.run(() => {
+
+          // Guardar valores congelados
+          this.fromSaved = this.from;
+          this.toSaved = this.to;
+          this.amountSaved = this.amount;
+
+          // Resultado final
+          this.final = result;
+
+        });
+
       },
-      error: () => { this.cargando = false; }
+
+      error: (error) => {
+        console.log(error);
+      }
     });
   }
 }

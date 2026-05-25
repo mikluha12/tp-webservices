@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api';
@@ -10,30 +10,45 @@ import { ApiService } from '../../services/api';
   templateUrl: './text-to-speech.html'
 })
 export class TextToSpeech {
-  texto = '';
-  voz = 'alloy';  // opciones: alloy, echo, fable, onyx, nova, shimmer
-  voces = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'];
-  audioUrl: string | null = null;
-  cargando = false;
-  error = '';
 
-  constructor(private api: ApiService) {}
+  texto: string = 'Hola Mundo!';
+  voz: string = 'alloy';
+
+  voces = [
+    'alloy',
+    'echo',
+    'fable',
+    'onyx',
+    'nova',
+    'shimmer'
+  ];
+
+  audioUrl: string = '';
+
+  constructor(
+    private api: ApiService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   convertir() {
-    if (!this.texto.trim()) return;
-    this.cargando = true;
-    this.audioUrl = null;
-    this.error = '';
 
-    this.api.textToSpeech(this.texto, this.voz).subscribe({
-      next: (blob: Blob) => {
-        this.audioUrl = URL.createObjectURL(blob);
-        this.cargando = false;
+    this.audioUrl = '';
+
+    this.api.textToSpeech(
+      this.texto,
+      this.voz
+    ).subscribe(
+
+      (data: Blob) => {
+
+        this.audioUrl = URL.createObjectURL(data);
+
+        this.cd.detectChanges();
       },
-      error: () => {
-        this.error = 'No se pudo generar el audio.';
-        this.cargando = false;
+
+      (error) => {
+        console.log(error);
       }
-    });
+    );
   }
 }

@@ -1,3 +1,24 @@
+<header>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary py-3">
+    <div class="container-fluid">
+      <a class="navbar-brand fs-3 ps-3 fw-bold" href="#">Grand Tour GT</a>
+      <button class="navbar-toggler" type="button"
+        data-bs-toggle="collapse" data-bs-target="#navbarToggler">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav ms-auto fs-5 gap-2">
+          <li class="nav-item"><a href="/" class="nav-link px-3 py-2">Películas</a></li>
+          <li class="nav-item"><a href="/autos" class="nav-link px-3 py-2">Autos</a></li>
+          <li class="nav-item"><a href="/conversor" class="nav-link px-3 py-2">Conversor</a></li>
+          <li class="nav-item"><a href="/text-to-speech" class="nav-link px-3 py-2">Text to Speech</a></li>
+          <li class="nav-item"><a href="/clima" class="nav-link px-3 py-2">Clima</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
 <h2 class="mb-4 fw-bold">🚗 Marcas de Autos</h2>
 
 <div *ngIf="cargando" class="text-center py-5">
@@ -28,15 +49,15 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <div *ngIf="cargandoModelos" class="text-center py-3">
+        <div *ngIf="cargando" class="text-center py-3">
           <div class="spinner-border" role="status"></div>
         </div>
-        <ul class="list-group" *ngIf="!cargandoModelos">
+        <ul class="list-group" *ngIf="!cargando">
           <li class="list-group-item" *ngFor="let modelo of modelos">
             {{ modelo.name }}
           </li>
         </ul>
-        <p *ngIf="!cargandoModelos && modelos.length === 0" class="text-muted text-center">
+        <p *ngIf="!cargando && modelos.length === 0" class="text-muted text-center">
           No se encontraron modelos.
         </p>
       </div>
@@ -46,3 +67,20 @@
     </div>
   </div>
 </div>
+
+<footer class="bg-body-tertiary py-4 mt-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-4 text-center">
+        <h5 class="mb-3 fw-bold">Síguenos</h5>
+        <div class="d-flex justify-content-center gap-3 fs-3">
+          <a href="#" class="text-body" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="https://www.instagram.com/nacho367_/" class="text-body" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-body" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+    <hr class="my-3">
+    <div class="text-center small opacity-75">© 2026 Grand Tour GT - Todos los derechos reservados</div>
+  </div>
+</footer>

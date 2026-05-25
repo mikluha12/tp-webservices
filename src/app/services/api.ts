@@ -27,31 +27,29 @@ export class ApiService {
     return this.http.get('https://car-specs.p.rapidapi.com/v2/cars/makes', { headers });
   }
 
-  // B - Modelos por marca
+  
   getCarModels(makeId: string): Observable<any> {
     const headers = new HttpHeaders({
-      'x-rapidapi-key': this.rapidApiKey,
-      'x-rapidapi-host': 'car-specs.p.rapidapi.com'
-    });
-    return this.http.get(`https://car-specs.p.rapidapi.com/v2/cars/models?makeId=${makeId}`, { headers });
+    'x-rapidapi-key': this.rapidApiKey,
+    'x-rapidapi-host': 'car-specs.p.rapidapi.com'
+  });
+  return this.http.get(`https://car-specs.p.rapidapi.com/v2/cars/models?makeId=${makeId}&limit=50`, { headers });
   }
 
-  // C - Conversor de moneda
-  getCurrencies(): Observable<any> {
-    return this.http.get(
-      `https://api.apilayer.com/currency_data/list`,
-      { headers: new HttpHeaders({ 'apikey': environment.currencyApiKey }) }
-    );
-  }
+ 
+getCurrencies(): Observable<any> {
+  return this.http.get(
+    `https://v6.exchangerate-api.com/v6/${environment.currencyApiKey}/codes`
+  );
+}
 
-  convertCurrency(from: string, to: string, amount: number): Observable<any> {
-    return this.http.get(
-      `https://api.apilayer.com/currency_data/convert?from=${from}&to=${to}&amount=${amount}`,
-      { headers: new HttpHeaders({ 'apikey': environment.currencyApiKey }) }
-    );
-  }
+convertCurrency(from: string, to: string, amount: number): Observable<any> {
+  return this.http.get(
+    `https://v6.exchangerate-api.com/v6/${environment.currencyApiKey}/pair/${from}/${to}/${amount}`
+  );
+}
 
-  // D - Text to Speech
+  
   textToSpeech(text: string, lang: string): Observable<any> {
     const headers = new HttpHeaders({
       'x-rapidapi-key': this.rapidApiKey,
@@ -65,10 +63,11 @@ export class ApiService {
     );
   }
 
-  // E - Clima (OpenWeatherMap, gratis)
+ 
   getWeather(city: string): Observable<any> {
-    return this.http.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${environment.weatherApiKey}&units=metric&lang=es`
-    );
+     const cityEncoded = encodeURIComponent(city.trim());
+  return this.http.get(
+    `https://api.openweathermap.org/data/2.5/weather?q=${cityEncoded}&appid=${environment.weatherApiKey}&units=metric&lang=es`
+  );
   }
 }

@@ -11,7 +11,7 @@
           <li class="nav-item"><a href="/" class="nav-link px-3 py-2">Películas</a></li>
           <li class="nav-item"><a href="/autos" class="nav-link px-3 py-2">Autos</a></li>
           <li class="nav-item"><a href="/conversor" class="nav-link px-3 py-2">Conversor</a></li>
-          <li class="nav-item"><a href="/tts" class="nav-link px-3 py-2">Text to Speech</a></li>
+          <li class="nav-item"><a href="/text-to-speech" class="nav-link px-3 py-2">Text to Speech</a></li>
           <li class="nav-item"><a href="/clima" class="nav-link px-3 py-2">Clima</a></li>
         </ul>
       </div>
@@ -37,13 +37,9 @@
         </select>
       </div>
 
-      <button class="btn btn-primary w-100" (click)="convertir()"
-              [disabled]="cargando || !texto.trim()">
-        <span *ngIf="cargando" class="spinner-border spinner-border-sm me-2"></span>
-        Generar Audio
+      <button class="btn btn-primary w-100" (click)="convertir()">
+        Convertir
       </button>
-
-      <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
 
       <div *ngIf="audioUrl" class="mt-4">
         <label class="form-label fw-semibold">Resultado:</label>

@@ -6,7 +6,8 @@ import { ApiService } from '../../services/api';
   selector: 'app-peliculas',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './peliculas.html'
+  templateUrl: './peliculas.html',
+  
 })
 export class Peliculas implements OnInit {
   peliculas: any[] = [];
