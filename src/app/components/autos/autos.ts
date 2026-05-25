@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api';
 
@@ -14,10 +14,10 @@ export class Autos implements OnInit {
   marcas: any[] = [];
   modelos: any[] = [];
   marcaSeleccionada = '';
-  cargando = true;
-  cargandoModelos = false;
+  cargando = false;
+  cargandoModelos = true;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.api.getCarBrands().subscribe({
@@ -29,16 +29,23 @@ export class Autos implements OnInit {
   }
 
   verModelos(marca: any) {
-    this.marcaSeleccionada = marca.name;
-    this.modelos = [];
-    this.cargandoModelos = true;
-    // Abrir modal
-    const modal = new bootstrap.Modal(document.getElementById('modalModelos'));
-    modal.show();
-    // Cargar modelos
-    this.api.getCarModels(marca.id).subscribe({
-      next: (data) => { this.modelos = data; this.cargandoModelos = false; },
-      error: () => { this.cargandoModelos = false; }
-    });
-  }
+  this.marcaSeleccionada = marca.name;
+  this.modelos = [];
+  this.cargandoModelos = true;
+  const modal = new bootstrap.Modal(document.getElementById('modalModelos'));
+  modal.show();
+  this.api.getCarModels(marca.id).subscribe({
+    next: (data) => {
+      console.log('modelos raw:', data);
+      this.modelos = data;
+      this.cargandoModelos = false;
+      this.cd.detectChanges();
+    },
+    error: (err) => {
+      console.log('error modelos:', err);
+      this.cargandoModelos = false;
+    }
+  });
+}
+
 }
