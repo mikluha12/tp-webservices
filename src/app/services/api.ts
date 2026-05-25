@@ -18,23 +18,21 @@ export class ApiService {
     return this.http.get('https://imdb-top-100-movies.p.rapidapi.com/', { headers });
   }
 
-  // B - Marcas de autos
-  getCarBrands(): Observable<any> {
-    const headers = new HttpHeaders({
-      'x-rapidapi-key': this.rapidApiKey,
-      'x-rapidapi-host': 'car-specs.p.rapidapi.com'
-    });
-    return this.http.get('https://car-specs.p.rapidapi.com/v2/cars/makes', { headers });
-  }
-
-  
-  getCarModels(makeId: string): Observable<any> {
-    const headers = new HttpHeaders({
+getCarBrands(): Observable<any> {
+  const headers = new HttpHeaders({
     'x-rapidapi-key': this.rapidApiKey,
     'x-rapidapi-host': 'car-specs.p.rapidapi.com'
   });
-  return this.http.get(`https://car-specs.p.rapidapi.com/v2/cars/models?makeId=${makeId}&limit=50`, { headers });
-  }
+  return this.http.get('https://car-specs.p.rapidapi.com/v2/cars/makes', { headers });
+}
+
+getCarModels(makeId: string): Observable<any> {
+  const headers = new HttpHeaders({
+    'x-rapidapi-key': this.rapidApiKey,
+    'x-rapidapi-host': 'car-specs.p.rapidapi.com'
+  });
+  return this.http.get(`https://car-specs.p.rapidapi.com/v2/cars/makes/${makeId}/models`, { headers });
+}
 
  
 getCurrencies(): Observable<any> {
