@@ -1,0 +1,65 @@
+<header>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary py-3">
+    <div class="container-fluid">
+      <a class="navbar-brand fs-3 ps-3 fw-bold" href="#">Grand Tour GT</a>
+      <button class="navbar-toggler" type="button"
+        data-bs-toggle="collapse" data-bs-target="#navbarToggler">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav ms-auto fs-5 gap-2">
+          <li class="nav-item"><a href="/" class="nav-link px-3 py-2">Películas</a></li>
+          <li class="nav-item"><a href="/autos" class="nav-link px-3 py-2">Autos</a></li>
+          <li class="nav-item"><a href="/conversor" class="nav-link px-3 py-2">Conversor</a></li>
+          <li class="nav-item"><a href="/tts" class="nav-link px-3 py-2">Text to Speech</a></li>
+          <li class="nav-item"><a href="/clima" class="nav-link px-3 py-2">Clima</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<h2 class="mb-4 fw-bold">🎬 Top 100 Películas IMDB</h2>
+
+<div *ngIf="cargando" class="text-center py-5">
+  <div class="spinner-border" role="status"></div>
+  <p class="mt-2">Cargando películas...</p>
+</div>
+
+<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+<div class="container py-5">
+  <div class="row g-4 justify-content-center">
+    <div class="col-12 col-md-6 col-lg-4" *ngFor="let peli of peliculas">
+      <div class="card h-100 bg-body-secondary text-center p-3">
+        <img [src]="peli.image" class="card-img-top rounded mb-3"
+             [alt]="peli.title" style="height:280px; object-fit:cover;"
+             onerror="this.src='assets/placeholder.png'">
+        <div class="card-body">
+          <i class="bi bi-film" style="font-size:2rem; color:var(--bs-primary)"></i>
+          <h3 class="card-title fw-bold mt-2">{{ peli.title }}</h3>
+          <p class="text-muted small">{{ peli.year }} • {{ peli.genre?.join(', ') }}</p>
+          <p class="card-text" style="font-size:0.88rem; overflow:hidden; display:-webkit-box; line-clamp:3; -webkit-line-clamp:3; -webkit-box-orient:vertical;">
+            {{ peli.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="bg-body-tertiary py-4 mt-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-4 text-center">
+        <h5 class="mb-3 fw-bold">Síguenos</h5>
+        <div class="d-flex justify-content-center gap-3 fs-3">
+          <a href="#" class="text-body" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="https://www.instagram.com/nacho367_/" class="text-body" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-body" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+    <hr class="my-3">
+    <div class="text-center small opacity-75">© 2026 Grand Tour GT - Todos los derechos reservados</div>
+  </div>
+</footer>

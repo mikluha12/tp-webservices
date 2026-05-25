@@ -1,0 +1,84 @@
+<header>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary py-3">
+    <div class="container-fluid">
+      <a class="navbar-brand fs-3 ps-3 fw-bold" href="#">Grand Tour GT</a>
+      <button class="navbar-toggler" type="button"
+        data-bs-toggle="collapse" data-bs-target="#navbarToggler">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav ms-auto fs-5 gap-2">
+          <li class="nav-item"><a href="/" class="nav-link px-3 py-2">Películas</a></li>
+          <li class="nav-item"><a href="/autos" class="nav-link px-3 py-2">Autos</a></li>
+          <li class="nav-item"><a href="/conversor" class="nav-link px-3 py-2">Conversor</a></li>
+          <li class="nav-item"><a href="/tts" class="nav-link px-3 py-2">Text to Speech</a></li>
+          <li class="nav-item"><a href="/clima" class="nav-link px-3 py-2">Clima</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-6">
+    <h2 class="mb-4 fw-bold">🌤️ Clima por Ciudad</h2>
+    <div class="card shadow-sm p-4">
+
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" [(ngModel)]="ciudad"
+               placeholder="Ej: Jujuy, Buenos Aires..."
+               (keyup.enter)="buscar()">
+        <button class="btn btn-primary" (click)="buscar()" [disabled]="cargando">
+          <span *ngIf="cargando" class="spinner-border spinner-border-sm"></span>
+          <span *ngIf="!cargando">Buscar</span>
+        </button>
+      </div>
+
+      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+      <div *ngIf="clima" class="text-center py-3">
+        <h3 class="fw-bold">{{ clima.name }}, {{ clima.sys.country }}</h3>
+        <img [src]="getIconUrl(clima.weather[0].icon)" [alt]="clima.weather[0].description">
+        <p class="fs-1 fw-bold mb-0">{{ clima.main.temp | number:'1.0-0' }}°C</p>
+        <p class="text-capitalize text-muted">{{ clima.weather[0].description }}</p>
+        <div class="row g-2 mt-2">
+          <div class="col-4">
+            <div class="bg-light rounded p-2">
+              <small class="text-muted d-block">Sensación</small>
+              <strong>{{ clima.main.feels_like | number:'1.0-0' }}°C</strong>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="bg-light rounded p-2">
+              <small class="text-muted d-block">Humedad</small>
+              <strong>{{ clima.main.humidity }}%</strong>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="bg-light rounded p-2">
+              <small class="text-muted d-block">Viento</small>
+              <strong>{{ clima.wind.speed }} m/s</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="bg-body-tertiary py-4 mt-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-4 text-center">
+        <h5 class="mb-3 fw-bold">Síguenos</h5>
+        <div class="d-flex justify-content-center gap-3 fs-3">
+          <a href="#" class="text-body" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="https://www.instagram.com/nacho367_/" class="text-body" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-body" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+    <hr class="my-3">
+    <div class="text-center small opacity-75">© 2026 Grand Tour GT - Todos los derechos reservados</div>
+  </div>
+</footer>
